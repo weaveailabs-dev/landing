@@ -22,15 +22,14 @@ export function Hero() {
             className="space-y-4"
           >
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight">
-              We build AI systems
+              Stop losing
               <br />
               <span className="bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-                that work together.
+                high-value enquiries.
               </span>
             </h1>
             <p className="text-xl sm:text-2xl text-muted-foreground max-w-2xl mx-auto">
-              From intent detection to real-world actions — across web,
-              WhatsApp, and internal tools.
+              We handle website and WhatsApp enquiries instantly — qualify intent, ask the right questions, and escalate to humans only when needed.
             </p>
           </motion.div>
 
@@ -41,11 +40,11 @@ export function Hero() {
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
             <Button size="lg" className="group">
-              View System Demo
+              See the enquiry system
               <PlayCircle className="ml-2 h-4 w-4 transition-transform group-hover:scale-110" />
             </Button>
             <Button size="lg" variant="outline" className="group">
-              Talk to the Builder
+              View a live demo
               <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Button>
           </motion.div>
@@ -56,7 +55,7 @@ export function Hero() {
             transition={{ duration: 0.5, delay: 0.4 }}
             className="pt-12 text-sm text-muted-foreground"
           >
-            <p>Trusted by operators who demand systems, not magic.</p>
+            <p>Built for businesses selling high-consideration products.</p>
           </motion.div>
         </div>
       </div>

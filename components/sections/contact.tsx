@@ -40,18 +40,32 @@ export function Contact() {
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-    console.log("Form submitted:", data);
-    setIsSubmitting(false);
-    setIsSuccess(true);
-    reset();
+      if (!response.ok) {
+        throw new Error("Failed to submit form");
+      }
 
-    // Reset success message after 5 seconds
-    setTimeout(() => {
-      setIsSuccess(false);
-    }, 5000);
+      setIsSuccess(true);
+      reset();
+
+      // Reset success message after 5 seconds
+      setTimeout(() => {
+        setIsSuccess(false);
+      }, 5000);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      // You could add error state handling here if needed
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -63,8 +77,7 @@ export function Contact() {
               Get started
             </h2>
             <p className="text-lg text-muted-foreground">
-              Tell us what you&apos;re trying to automate. We&apos;ll respond within 24
-              hours.
+              Tell us about your enquiry workflow. We&apos;ll respond within 24 hours.
             </p>
           </div>
 
@@ -144,11 +157,11 @@ export function Contact() {
 
                     <div className="space-y-2">
                       <Label htmlFor="message">
-                        What are you trying to automate?
+                        What&apos;s your enquiry situation?
                       </Label>
                       <Textarea
                         id="message"
-                        placeholder="Describe your workflow, problem, or use case..."
+                        placeholder="Example: We get 50-100 website enquiries/month for our training platform. Response time is slow and qualification is inconsistent..."
                         rows={5}
                         {...register("message")}
                         disabled={isSubmitting}

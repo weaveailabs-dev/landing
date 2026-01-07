@@ -1,39 +1,39 @@
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
-import { Workflow, Database, UserCheck, Activity, ArrowRight } from "lucide-react";
+import { MessageSquare, CheckCircle, Database, UserCheck, FileText, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 
-const principles = [
+const steps = [
   {
-    icon: Workflow,
-    title: "Deterministic logic + LLMs",
+    icon: MessageSquare,
+    title: "Enquiry arrives",
     description:
-      "We use LLMs for understanding, not execution. Business logic stays predictable and testable.",
+      "Website form or WhatsApp message comes in. Instant acknowledgment. No delays.",
+  },
+  {
+    icon: CheckCircle,
+    title: "Intent qualified",
+    description:
+      "We ask 2–3 structured questions to understand what they need and how serious they are.",
   },
   {
     icon: Database,
-    title: "Intent-first systems",
+    title: "Lead created",
     description:
-      "Classify what the user wants. Route to the right workflow. Execute with precision.",
-  },
-  {
-    icon: Activity,
-    title: "Context via RAG",
-    description:
-      "Connect to your data. Retrieve what matters. Give the AI context without retraining.",
+      "Information captured in a structured format. No more manual data entry.",
   },
   {
     icon: UserCheck,
-    title: "Human-in-the-loop escalation",
+    title: "Human escalation (when needed)",
     description:
-      "When confidence is low, escalate. Never fake certainty. Always know when to hand off.",
+      "If intent is qualified and ready, we loop in your team with full context. No repetition.",
   },
   {
-    icon: Activity,
-    title: "Observability and control",
+    icon: FileText,
+    title: "Everything logged",
     description:
-      "Every decision logged. Every action tracked. Full visibility into what your AI is doing.",
+      "Every enquiry, every question, every response tracked. You always know what's happening.",
   },
 ];
 
@@ -43,10 +43,10 @@ export function Approach() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mx-auto text-center mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Our approach
+            How the system works
           </h2>
           <p className="text-lg text-muted-foreground">
-            Engineering-first AI. Built for reliability, not demos.
+            One system. Five steps. Every enquiry handled reliably.
           </p>
         </div>
 
@@ -54,7 +54,7 @@ export function Approach() {
           {/* Flow visualization */}
           <div className="mb-12 p-8 rounded-lg border bg-card">
             <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-center">
-              {["Input", "Intent", "Context", "Execute", "Monitor"].map(
+              {["Enquiry", "Qualify", "Capture", "Escalate", "Log"].map(
                 (step, index) => (
                   <motion.div
                     key={step}
@@ -80,13 +80,13 @@ export function Approach() {
             </div>
           </div>
 
-          {/* Principles grid */}
+          {/* Steps grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {principles.map((principle, index) => {
-              const Icon = principle.icon;
+            {steps.map((step, index) => {
+              const Icon = step.icon;
               return (
                 <motion.div
-                  key={principle.title}
+                  key={step.title}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -99,9 +99,9 @@ export function Approach() {
                           <Icon className="w-5 h-5 text-primary" />
                         </div>
                         <div className="space-y-1">
-                          <h3 className="font-semibold">{principle.title}</h3>
+                          <h3 className="font-semibold">{step.title}</h3>
                           <p className="text-sm text-muted-foreground">
-                            {principle.description}
+                            {step.description}
                           </p>
                         </div>
                       </div>

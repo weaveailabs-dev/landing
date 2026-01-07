@@ -12,34 +12,34 @@ import { motion } from "framer-motion";
 
 const problems = [
   {
-    icon: MessageSquareWarning,
-    title: "AI chatbots that hallucinate",
-    description:
-      "LLMs make things up. No structured output. No guarantee they'll do what you need.",
-  },
-  {
-    icon: Unplug,
-    title: "Disconnected tools and workflows",
-    description:
-      "Chatbot lives in a silo. Data lives elsewhere. Nothing talks to anything.",
-  },
-  {
     icon: Clock,
-    title: "Manual follow-ups and inefficiencies",
+    title: "Missed enquiries outside business hours",
     description:
-      "Automation stops at the chat window. Humans pick up the rest. Every. Single. Time.",
-  },
-  {
-    icon: Eye,
-    title: "No visibility or control",
-    description:
-      "Can't see what the AI is doing. Can't debug it. Can't improve it. Just hope it works.",
+      "Website form submitted at 11pm. WhatsApp message on Sunday. By Monday, they've moved on.",
   },
   {
     icon: AlertTriangle,
-    title: "Fragile automations that break silently",
+    title: "Slow response times",
     description:
-      "One API change. One edge case. Everything fails. You find out when a customer complains.",
+      "Enquiries sit in a queue. Your team is busy. Prospects get impatient. Competitors respond faster.",
+  },
+  {
+    icon: MessageSquareWarning,
+    title: "Inconsistent qualification",
+    description:
+      "Some leads get asked budget. Some don't. Some get follow-up questions. Some fall through the cracks.",
+  },
+  {
+    icon: Unplug,
+    title: "Lost context and handoffs",
+    description:
+      "Prospect explains their need on WhatsApp. Has to repeat everything when transferred to sales. Frustrating.",
+  },
+  {
+    icon: Eye,
+    title: "Manual, repetitive work",
+    description:
+      "Your team answers the same questions, asks the same qualifiers, copies data into spreadsheets. Every single time.",
   },
 ];
 
@@ -64,10 +64,10 @@ export function Problems() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mx-auto text-center mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            The problems we solve
+            The enquiry problem
           </h2>
           <p className="text-lg text-muted-foreground">
-            Most AI implementations fail at the edges. We fix that.
+            For high-consideration products, every missed or delayed enquiry is lost revenue. For most businesses, this translates directly into slower growth and competitive disadvantage.
           </p>
         </div>
 

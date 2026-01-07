@@ -4,8 +4,8 @@ import { Hero } from "@/components/sections/hero";
 import { Problems } from "@/components/sections/problems";
 import { Approach } from "@/components/sections/approach";
 import { Offerings } from "@/components/sections/offerings";
-import { HowItWorks } from "@/components/sections/how-it-works";
-import { Pricing } from "@/components/sections/pricing";
+import { WhoItsFor } from "@/components/sections/who-its-for";
+import { FAQ } from "@/components/sections/faq";
 import { Contact } from "@/components/sections/contact";
 
 export default function Home() {
@@ -20,7 +20,7 @@ export default function Home() {
           <Problems />
         </div>
 
-        <div id="approach">
+        <div id="how-it-works">
           <Approach />
         </div>
 
@@ -28,12 +28,12 @@ export default function Home() {
           <Offerings />
         </div>
 
-        <div id="how-it-works">
-          <HowItWorks />
+        <div id="who-its-for">
+          <WhoItsFor />
         </div>
 
-        <div id="pricing">
-          <Pricing />
+        <div id="faq">
+          <FAQ />
         </div>
 
         <div id="contact">

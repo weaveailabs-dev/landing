@@ -1,16 +1,17 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navItems = [
-  { label: "Problems", href: "#problems" },
-  { label: "Approach", href: "#approach" },
-  { label: "Offerings", href: "#offerings" },
+  { label: "The Problem", href: "#problems" },
   { label: "How It Works", href: "#how-it-works" },
-  { label: "Pricing", href: "#pricing" },
+  { label: "What You Get", href: "#offerings" },
+  { label: "Who It's For", href: "#who-its-for" },
+  { label: "FAQ", href: "#faq" },
 ];
 
 export function Navigation() {
@@ -22,8 +23,15 @@ export function Navigation() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <a href="#" className="text-xl font-bold">
-              WeaveAI
+            <a href="#" className="flex items-center">
+              <Image
+                src="/weaveAILogo.png"
+                alt="WeaveAI"
+                width={120}
+                height={32}
+                className="h-8 w-auto rounded-lg"
+                priority
+              />
             </a>
           </div>
 

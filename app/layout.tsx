@@ -8,19 +8,19 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 export const metadata: Metadata = {
   metadataBase: new URL("https://weaveai.dev"),
   title: {
-    default: "WeaveAI - Applied AI Systems That Work Together",
+    default: "WeaveAI - Inbound Enquiry System for High-Consideration Products",
     template: "%s | WeaveAI",
   },
   description:
-    "We build AI systems that work together — from intent detection to real-world actions across web, WhatsApp, and internal tools.",
+    "Handle website and WhatsApp enquiries instantly. Qualify intent with structured questions. Escalate to humans only when needed.",
   keywords: [
-    "AI systems",
-    "AI automation",
-    "WhatsApp AI",
-    "AI orchestration",
-    "workflow automation",
-    "applied AI",
-    "AI infrastructure",
+    "enquiry management",
+    "lead qualification",
+    "WhatsApp enquiries",
+    "website enquiries",
+    "inbound enquiries",
+    "lead qualification system",
+    "high-consideration sales",
   ],
   authors: [{ name: "WeaveAI" }],
   creator: "WeaveAI",
@@ -28,16 +28,24 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://weaveai.dev",
-    title: "WeaveAI - Applied AI Systems That Work Together",
+    title: "WeaveAI - Inbound Enquiry System for High-Consideration Products",
     description:
-      "We build AI systems that work together — from intent detection to real-world actions across web, WhatsApp, and internal tools.",
+      "Handle website and WhatsApp enquiries instantly. Qualify intent with structured questions. Escalate to humans only when needed.",
     siteName: "WeaveAI",
+    images: [
+      {
+        url: "/weaveAILogo.png",
+        width: 1200,
+        height: 630,
+        alt: "WeaveAI Logo",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "WeaveAI - Applied AI Systems That Work Together",
+    title: "WeaveAI - Inbound Enquiry System for High-Consideration Products",
     description:
-      "We build AI systems that work together — from intent detection to real-world actions across web, WhatsApp, and internal tools.",
+      "Handle website and WhatsApp enquiries instantly. Qualify intent with structured questions. Escalate to humans only when needed.",
     creator: "@weaveai",
   },
   robots: {
