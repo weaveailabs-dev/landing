@@ -1,8 +1,9 @@
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
-import { MessageSquare, CheckCircle, Database, UserCheck, FileText, ArrowRight } from "lucide-react";
+import { SystemFlowDemo } from "@/components/ui/system-flow-demo";
 import { motion } from "framer-motion";
+import { CheckCircle, Database, FileText, MessageSquare, UserCheck } from "lucide-react";
 
 const steps = [
   {
@@ -51,33 +52,9 @@ export function Approach() {
         </div>
 
         <div className="max-w-5xl mx-auto">
-          {/* Flow visualization */}
-          <div className="mb-12 p-8 rounded-lg border bg-card">
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-center">
-              {["Enquiry", "Qualify", "Capture", "Escalate", "Log"].map(
-                (step, index) => (
-                  <motion.div
-                    key={step}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    className="flex items-center gap-3"
-                  >
-                    <div className="flex-1">
-                      <div className="relative">
-                        <div className="h-16 rounded-lg bg-primary/10 border-2 border-primary/20 flex items-center justify-center">
-                          <span className="text-sm font-medium">{step}</span>
-                        </div>
-                      </div>
-                    </div>
-                    {index < 4 && (
-                      <ArrowRight className="hidden md:block w-5 h-5 text-muted-foreground flex-shrink-0" />
-                    )}
-                  </motion.div>
-                )
-              )}
-            </div>
+          {/* Interactive Flow Demo */}
+          <div className="mb-16">
+            <SystemFlowDemo />
           </div>
 
           {/* Steps grid */}

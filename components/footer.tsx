@@ -1,4 +1,4 @@
-import { Github, Twitter, Linkedin } from "lucide-react";
+import { Github, Linkedin, Twitter } from "lucide-react";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -21,14 +21,6 @@ export function Footer() {
             <ul className="space-y-2">
               <li>
                 <a
-                  href="#offerings"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  Offerings
-                </a>
-              </li>
-              <li>
-                <a
                   href="#how-it-works"
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
@@ -37,10 +29,26 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="#pricing"
+                  href="#offerings"
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  Pricing
+                  What You Get
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#who-its-for"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Who It's For
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#faq"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  FAQ
                 </a>
               </li>
             </ul>
@@ -52,18 +60,10 @@ export function Footer() {
             <ul className="space-y-2">
               <li>
                 <a
-                  href="#approach"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  Our Approach
-                </a>
-              </li>
-              <li>
-                <a
                   href="#contact"
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  Contact
+                  Get Started
                 </a>
               </li>
             </ul>

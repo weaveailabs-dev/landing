@@ -34,6 +34,21 @@ const faqs = [
     answer:
       "That's fine. You can start with website-only or WhatsApp-only and add the other channel later if needed.",
   },
+  {
+    question: "What is the Knowledge Layer and when do I need it?",
+    answer:
+      "The Knowledge Layer is a premium add-on that enables the enquiry system to answer factual questions from your approved documents. You need it if prospects frequently ask detailed product questions (specifications, policies, technical details) that require accurate information from your documentation.",
+  },
+  {
+    question: "How does the Knowledge Layer prevent wrong answers?",
+    answer:
+      "It uses retrieval-based responses from your approved documents only. If the answer isn't in your documents, the system refuses to respond instead of guessing. Every response includes source references so you can verify correctness.",
+  },
+  {
+    question: "What kind of documents can I use with the Knowledge Layer?",
+    answer:
+      "Product manuals, technical specifications, warranty policies, pricing sheets, compliance documents — any factual reference material your team uses to answer prospect questions. We help you identify which documents to include during setup.",
+  },
 ];
 
 export function FAQ() {
@@ -57,7 +72,7 @@ export function FAQ() {
               transition={{ delay: index * 0.1 }}
             >
               <Card>
-                <CardContent className="p-6 space-y-3">
+                <CardContent className="p-6 space-y-4">
                   <h3 className="font-semibold text-lg">{faq.question}</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">
                     {faq.answer}

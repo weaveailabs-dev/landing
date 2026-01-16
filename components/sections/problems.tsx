@@ -1,14 +1,15 @@
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  MessageSquareWarning,
-  Unplug,
-  Clock,
-  Eye,
-  AlertTriangle,
-} from "lucide-react";
+import { HighlightBlock } from "@/components/ui/highlight-block";
 import { motion } from "framer-motion";
+import {
+    AlertTriangle,
+    Clock,
+    Eye,
+    MessageSquareWarning,
+    Unplug,
+} from "lucide-react";
 
 const problems = [
   {
@@ -62,13 +63,19 @@ export function Problems() {
   return (
     <section className="py-24 sm:py-32">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-2xl mx-auto text-center mb-16">
+        <div className="max-w-2xl mx-auto text-center mb-12">
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
             The enquiry problem
           </h2>
           <p className="text-lg text-muted-foreground">
             For high-consideration products, every missed or delayed enquiry is lost revenue. For most businesses, this translates directly into slower growth and competitive disadvantage.
           </p>
+        </div>
+
+        <div className="max-w-3xl mx-auto mb-16">
+          <HighlightBlock>
+            Missed enquiries often translate directly into lost revenue.
+          </HighlightBlock>
         </div>
 
         <motion.div
