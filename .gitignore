@@ -29,6 +29,10 @@ yarn-error.log*
 # Vercel
 .vercel
 
+# Codex local skills and generated design refs
+.codex/
+design-system/
+
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts

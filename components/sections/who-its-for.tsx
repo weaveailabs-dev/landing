@@ -28,7 +28,7 @@ export function WhoItsFor() {
             Who this is for
           </h2>
           <p className="text-lg text-muted-foreground">
-            This system works best for specific types of businesses. Here's how to know if it's a fit.
+            This system works best for specific types of businesses. Here&apos;s how to know if it&apos;s a fit.
           </p>
         </div>
 

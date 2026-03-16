@@ -1,110 +1,52 @@
-import { Github, Linkedin, Twitter } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { footerSections } from "@/lib/site-content";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t bg-background">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Brand */}
+    <footer className="border-t border-white/10 bg-slate-950/60">
+      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <div className="grid gap-10 md:grid-cols-[1.2fr_0.8fr_0.8fr]">
           <div className="space-y-4">
-            <h3 className="text-lg font-bold">WeaveAI</h3>
-            <p className="text-sm text-muted-foreground">
-              Applied AI systems that work together.
+            <Image
+              src="/weaveAILogo.png"
+              alt="WeaveAI"
+              width={180}
+              height={48}
+              className="h-10 w-auto rounded-lg object-contain"
+            />
+            <p className="max-w-md text-sm leading-7 text-slate-300">
+              Production-grade AI agents and RAG systems for teams that need
+              grounded answers, visible behavior, and clean deployment paths.
             </p>
           </div>
-
-          {/* Product */}
-          <div className="space-y-4">
-            <h4 className="text-sm font-semibold">Product</h4>
-            <ul className="space-y-2">
-              <li>
-                <a
-                  href="#how-it-works"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  How It Works
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#offerings"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  What You Get
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#who-its-for"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  Who It's For
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#faq"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  FAQ
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Company */}
-          <div className="space-y-4">
-            <h4 className="text-sm font-semibold">Company</h4>
-            <ul className="space-y-2">
-              <li>
-                <a
-                  href="#contact"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  Get Started
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Connect */}
-          <div className="space-y-4">
-            <h4 className="text-sm font-semibold">Connect</h4>
-            <div className="flex items-center space-x-4">
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <Twitter className="w-5 h-5" />
-              </a>
-              <a
-                href="https://github.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <Github className="w-5 h-5" />
-              </a>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <Linkedin className="w-5 h-5" />
-              </a>
+          {footerSections.map((section) => (
+            <div key={section.title} className="space-y-4">
+              <h4 className="text-sm font-medium uppercase tracking-[0.24em] text-slate-400">
+                {section.title}
+              </h4>
+              <ul className="space-y-3">
+                {section.links.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="text-sm text-slate-300 transition hover:text-white"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
-          </div>
+          ))}
         </div>
 
-        <div className="mt-12 pt-8 border-t text-center">
-          <p className="text-sm text-muted-foreground">
-            &copy; {currentYear} WeaveAI. Built for operators who demand
-            systems, not magic.
+        <div className="mt-12 border-t border-white/10 pt-8 text-sm text-slate-400">
+          <p>
+            &copy; {currentYear} WeaveAI. Built like an engineering team, not an
+            ad campaign.
           </p>
         </div>
       </div>

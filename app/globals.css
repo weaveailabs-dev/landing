@@ -4,64 +4,33 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    /* Indigo 600 - Infrastructure-grade primary */
-    --primary: 238 69% 58%;
-    --primary-foreground: 0 0% 98%;
-    --primary-hover: 238 73% 53%;
-    --primary-tint: 238 69% 58%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 238 69% 58%;
-    --radius: 0.5rem;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-  }
-
-  .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    /* Indigo 600 - consistent in dark mode */
-    --primary: 238 69% 58%;
-    --primary-foreground: 0 0% 98%;
-    --primary-hover: 238 73% 53%;
-    --primary-tint: 238 69% 58%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 238 69% 58%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    --background: 228 38% 7%;
+    --foreground: 210 40% 98%;
+    --card: 228 31% 11%;
+    --card-foreground: 210 40% 98%;
+    --popover: 228 31% 11%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217 100% 64%;
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 217 100% 60%;
+    --primary-tint: 191 100% 64%;
+    --secondary: 225 20% 14%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 225 22% 18%;
+    --muted-foreground: 215 20% 74%;
+    --accent: 252 89% 68%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 72% 56%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 226 18% 20%;
+    --input: 226 18% 20%;
+    --ring: 191 100% 64%;
+    --radius: 1.25rem;
+    --chart-1: 196 100% 62%;
+    --chart-2: 228 100% 70%;
+    --chart-3: 258 100% 73%;
+    --chart-4: 175 100% 55%;
+    --chart-5: 42 100% 67%;
   }
 }
 
@@ -74,10 +43,29 @@
     scroll-behavior: smooth;
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
-    line-height: 1.6;
+    line-height: 1.68;
+    background-image:
+      radial-gradient(circle at top, rgba(56, 189, 248, 0.18), transparent 26rem),
+      radial-gradient(circle at 80% 10%, rgba(99, 102, 241, 0.16), transparent 22rem),
+      linear-gradient(180deg, rgba(15, 23, 42, 0.9), rgba(2, 6, 23, 1));
+    min-height: 100vh;
   }
 
   h1,
@@ -86,7 +74,124 @@
   h4,
   h5,
   h6 {
-    line-height: 1.2;
+    line-height: 1.08;
     font-weight: 700;
+    letter-spacing: -0.04em;
+  }
+
+  a {
+    @apply outline-none;
+    cursor: pointer;
+  }
+
+  ::selection {
+    background: rgba(34, 211, 238, 0.32);
+    color: white;
+  }
+}
+
+@layer components {
+  .page-frame {
+    @apply relative min-h-screen overflow-x-clip;
+  }
+
+  .page-frame::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -2;
+    background-image:
+      linear-gradient(to right, rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+  }
+
+  .page-frame::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(56, 189, 248, 0.18), transparent 24rem),
+      radial-gradient(circle at 85% 12%, rgba(129, 140, 248, 0.16), transparent 22rem),
+      radial-gradient(circle at 50% 120%, rgba(14, 165, 233, 0.18), transparent 28rem);
+  }
+
+  .section-shell {
+    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .section-space {
+    @apply py-16 sm:py-20 lg:py-24;
+  }
+
+  .surface-card {
+    @apply rounded-[1.75rem] border border-white/10 bg-white/[0.04] shadow-[0_20px_60px_rgba(2,6,23,0.45)] backdrop-blur-xl transition duration-300;
+  }
+
+  .page-grid {
+    background-image:
+      linear-gradient(to right, rgba(148, 163, 184, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(148, 163, 184, 0.05) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full border border-cyan-300/25 bg-cyan-300/10 px-3 py-1 text-xs uppercase tracking-[0.28em] text-cyan-100;
+  }
+
+  .section-title {
+    @apply font-display text-4xl font-semibold tracking-[-0.045em] text-white sm:text-5xl lg:text-6xl;
+  }
+
+  .section-copy {
+    @apply max-w-2xl text-base leading-relaxed text-slate-200 sm:text-lg;
+  }
+
+  .subtle-divider {
+    @apply h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent;
+  }
+
+  .prose-weave {
+    @apply space-y-8 text-base leading-relaxed text-slate-200;
+  }
+
+  .prose-weave h2 {
+    @apply font-display text-3xl tracking-[-0.04em] text-white;
+  }
+
+  .prose-weave h3 {
+    @apply font-display text-2xl tracking-[-0.04em] text-white;
+  }
+
+  .prose-weave p {
+    @apply text-base leading-relaxed text-slate-200;
+  }
+
+  .prose-weave ul {
+    @apply space-y-3 pl-5 text-slate-200;
+  }
+
+  .hubspot-embed .hs-form,
+  .hubspot-embed form {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .hubspot-embed label {
+    @apply mb-2 block text-sm text-slate-200;
+  }
+
+  .hubspot-embed input,
+  .hubspot-embed textarea,
+  .hubspot-embed select {
+    @apply w-full rounded-2xl border border-white/10 bg-slate-950/70 px-4 py-3 text-sm text-slate-100 outline-none;
+  }
+
+  .hubspot-embed .hs-button {
+    @apply inline-flex h-12 items-center justify-center rounded-full bg-primary px-6 text-sm font-medium text-white shadow-[0_12px_30px_rgba(37,99,235,0.35)] transition hover:-translate-y-0.5 hover:bg-primary/90;
   }
 }

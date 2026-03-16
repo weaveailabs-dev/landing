@@ -1,51 +1,51 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+import { Navigation } from "@/components/navigation";
+import { Footer } from "@/components/footer";
+import { siteUrl } from "@/lib/site-content";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://weaveai.dev"),
+  metadataBase: new URL(siteUrl),
   title: {
-    default: "WeaveAI - Inbound Enquiry System for High-Consideration Products",
+    default: "WeaveAI | Reliable AI Agents and RAG Systems",
     template: "%s | WeaveAI",
   },
   description:
-    "Handle website and WhatsApp enquiries instantly. Qualify intent with structured questions. Escalate to humans only when needed.",
+    "WeaveAI builds production-grade AI agents and RAG systems that companies can actually rely on.",
   keywords: [
-    "enquiry management",
-    "lead qualification",
-    "WhatsApp enquiries",
-    "website enquiries",
-    "inbound enquiries",
-    "lead qualification system",
-    "high-consideration sales",
+    "AI agents",
+    "RAG systems",
+    "production AI",
+    "enterprise search",
+    "AI engineering studio",
+    "retrieval augmented generation",
+    "workflow automation agents",
   ],
   authors: [{ name: "WeaveAI" }],
   creator: "WeaveAI",
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://weaveai.dev",
-    title: "WeaveAI - Inbound Enquiry System for High-Consideration Products",
+    url: siteUrl,
+    title: "WeaveAI | Reliable AI Agents and RAG Systems",
     description:
-      "Handle website and WhatsApp enquiries instantly. Qualify intent with structured questions. Escalate to humans only when needed.",
+      "Production-grade AI agents and RAG systems for teams that need reliable answers in production.",
     siteName: "WeaveAI",
     images: [
       {
-        url: "/weaveAILogo.png",
+        url: "/weaveAiLabs.png",
         width: 1200,
         height: 630,
-        alt: "WeaveAI Logo",
+        alt: "WeaveAI",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "WeaveAI - Inbound Enquiry System for High-Consideration Products",
+    title: "WeaveAI | Reliable AI Agents and RAG Systems",
     description:
-      "Handle website and WhatsApp enquiries instantly. Qualify intent with structured questions. Escalate to humans only when needed.",
+      "Production-grade AI agents and RAG systems for companies that need reliability, observability, and real deployment paths.",
     creator: "@weaveai",
   },
   robots: {
@@ -68,8 +68,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn(inter.variable, "font-sans antialiased")}>
-        {children}
+      <body className={cn("font-sans antialiased")}>
+        <div className="page-frame">
+          <Navigation />
+          <main className="pt-16">{children}</main>
+          <Footer />
+        </div>
       </body>
     </html>
   );

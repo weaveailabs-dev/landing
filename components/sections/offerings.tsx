@@ -152,7 +152,7 @@ export function Offerings() {
                   <div className="pt-4 border-t">
                     <div className="p-4 rounded-lg bg-muted/30 border border-muted">
                       <p className="text-sm text-muted-foreground">
-                        <span className="font-semibold text-foreground">Boundary:</span> If the answer isn't in your approved documents, the system refuses instead of guessing. This prevents hallucinations and maintains trust with prospects.
+                        <span className="font-semibold text-foreground">Boundary:</span> If the answer isn&apos;t in your approved documents, the system refuses instead of guessing. This prevents hallucinations and maintains trust with prospects.
                       </p>
                     </div>
                   </div>
@@ -202,7 +202,7 @@ export function Offerings() {
           >
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg">What's included</CardTitle>
+                <CardTitle className="text-lg">What&apos;s included</CardTitle>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-3">
