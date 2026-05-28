@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WeaveAI · Workflow Audit</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --paper:#f5efe2;
+  --ink:#141414;
+  --accent:#c75a2c;
+  --link:#1f4ed8;
+  --muted:#8a8278;
+  --border:#d4cdc0;
+  --shadow:8px 8px 0 #1c1a17;
+  --heading:'Instrument Serif',Georgia,serif;
+  --body:'Space Grotesk',-apple-system,sans-serif;
+  --mono:'Space Mono',monospace
+}
+body{font-family:var(--body);background:var(--paper);color:var(--ink);overflow:hidden;height:100vh;width:100vw}
+.deck{position:relative;height:100vh;width:100vw}
+.slide{
+  position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;
+  padding:64px 96px
+}
+.slide.active{display:flex}
+.slide-content{max-width:1040px;width:100%}
+
+/* fixed elements */
+.brand{position:fixed;top:28px;left:40px;z-index:100;display:flex;align-items:center;gap:10px}
+.brand span{font-family:var(--mono);font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:2px}
+.accent-bar{position:fixed;top:0;left:0;right:0;height:3px;background:var(--accent);z-index:100}
+.side-label{position:fixed;bottom:28px;right:36px;z-index:100;font-family:var(--mono);font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:2px}
+
+/* typography */
+.tag{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:4px}
+.keyline{width:40px;height:2px;background:var(--accent);margin:12px 0 20px}
+h1{font-family:var(--heading);font-size:clamp(42px,5vw,62px);font-weight:400;line-height:1.05;letter-spacing:-.5px;margin-bottom:20px}
+h2{font-family:var(--heading);font-size:clamp(30px,3.5vw,46px);font-weight:400;line-height:1.1;letter-spacing:-.3px;margin-bottom:14px}
+.subtitle{font-size:16px;color:var(--muted);line-height:1.6;max-width:600px}
+.subtitle-sm{font-size:13px;color:var(--muted);line-height:1.5;max-width:560px}
+.mono-label{font-family:var(--mono);font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px}
+
+/* bordered block helper */
+.bordered{border:2px solid var(--ink);background:#fff}
+.bordered-right{border-right:2px solid var(--ink)}
+
+/* metric row */
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);margin-top:32px;border:2px solid var(--ink);background:#fff}
+.metric-card{padding:28px 16px;text-align:center;border-right:2px solid var(--border)}
+.metric-card:last-child{border-right:0}
+.metric-card .value{font-family:var(--heading);font-size:36px;color:var(--accent);line-height:1}
+.metric-card .label{font-family:var(--mono);font-size:9px;color:var(--muted);margin-top:8px;text-transform:uppercase;letter-spacing:1.5px}
+
+/* grid cards — grid provides outer border, cards provide inner lines */
+.card-grid{display:grid;gap:0;margin-top:28px;border:2px solid var(--ink);background:#fff}
+.card-grid.c2{grid-template-columns:1fr 1fr}
+.card-grid.c3{grid-template-columns:1fr 1fr 1fr}
+.card-grid.c4{grid-template-columns:repeat(4,1fr)}
+.card{padding:24px;border-bottom:2px solid var(--border);border-right:2px solid var(--border);background:#fff}
+.card-grid.c4 .card:nth-child(4n){border-right:0}
+.card-grid.c3 .card:nth-child(3n){border-right:0}
+.card-grid.c2 .card:nth-child(2n){border-right:0}
+/* last row — remove bottom border */
+.card-grid.c4 .card:nth-last-child(-n+4){border-bottom:0}
+.card-grid.c3 .card:nth-last-child(-n+3){border-bottom:0}
+.card-grid.c2 .card:nth-last-child(-n+2){border-bottom:0}
+.card:last-child{border-right:0}
+.card .icon{font-size:20px;display:block;margin-bottom:8px;color:var(--accent)}
+.card h3{font-family:var(--heading);font-size:17px;font-weight:400;margin-bottom:4px}
+.card p{font-size:12px;color:var(--muted);line-height:1.5}
+
+/* pill */
+.pill{display:inline-block;font-family:var(--mono);padding:2px 10px;font-size:9px;letter-spacing:1.5px;background:var(--paper);color:var(--accent);border:1.5px solid var(--accent);text-transform:uppercase}
+
+/* bottleneck bars */
+.bottleneck-list{display:flex;flex-direction:column;gap:8px;border:2px solid var(--ink);background:#fff;margin-top:28px}
+.bottleneck-item{display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:2px solid var(--border);background:#fff}
+.bottleneck-item:last-child{border-bottom:0}
+.bottleneck-item .name{font-size:13px;font-weight:600;min-width:160px}
+.bottleneck-item .track{flex:1;height:14px;background:var(--border);border:1.5px solid var(--ink)}
+.bottleneck-item .fill{height:100%;background:var(--accent);width:0%;transition:width 1.2s ease}
+.bottleneck-item .pct{font-family:var(--heading);font-size:20px;color:var(--accent);min-width:40px;text-align:right}
+
+/* impact footer */
+.impact-bar{display:grid;grid-template-columns:1fr 1fr;border:2px solid var(--ink);border-top:0;background:#fff}
+.impact-item{display:flex;align-items:center;gap:8px;padding:10px 14px;font-size:12px;border-right:2px solid var(--border);border-bottom:2px solid var(--border);background:#fff}
+.impact-item:nth-child(2n){border-right:0}
+.impact-item:nth-last-child(-n+2){border-bottom:0}
+.badge{font-family:var(--mono);font-size:8px;padding:2px 8px;letter-spacing:1px;flex-shrink:0}
+.badge-h{background:var(--ink);color:var(--paper)}
+.badge-m{background:var(--accent);color:#fff}
+
+/* before/after split */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:28px;border:2px solid var(--ink);background:#fff}
+.split-pane{padding:20px 24px}
+.split-pane:first-child{border-right:2px solid var(--ink)}
+.split-pane h3{font-family:var(--heading);font-size:20px;font-weight:400;margin-bottom:10px}
+.vs-item{display:flex;align-items:flex-start;gap:10px;padding:9px 0;font-size:13px;border-bottom:1px solid var(--border)}
+.vs-item:last-child{border:0}
+.vs-item .x{color:var(--muted);flex-shrink:0}
+.vs-item .check{color:var(--accent);flex-shrink:0}
+
+/* timeline */
+.timeline{display:flex;gap:0;margin-top:28px;border:2px solid var(--ink);background:#fff}
+.t-step{flex:1;padding:22px 18px;text-align:center;border-right:2px solid var(--border)}
+.t-step:last-child{border:0}
+.t-step .dot{width:10px;height:10px;background:var(--accent);margin:0 auto 10px}
+.t-step h4{font-family:var(--heading);font-size:18px;font-weight:400;margin-bottom:3px}
+.t-step p{font-size:11px;color:var(--muted);line-height:1.5}
+
+/* stats row */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);margin-top:28px;border:2px solid var(--ink);background:#fff}
+.stat{padding:18px 12px;text-align:center;border-right:2px solid var(--border)}
+.stat:last-child{border:0}
+.stat .val{font-family:var(--heading);font-size:26px;color:var(--accent)}
+.stat .lbl{font-family:var(--mono);font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-top:3px}
+
+/* next steps */
+.next-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:28px;border:2px solid var(--ink);background:#fff}
+.next-card{display:flex;gap:14px;padding:20px;border-bottom:2px solid var(--border);border-right:2px solid var(--border);background:#fff}
+.next-grid .next-card:nth-child(2n){border-right:0}
+.next-grid .next-card:nth-last-child(-n+2){border-bottom:0}
+.next-card .num{font-family:var(--heading);width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:18px;background:var(--ink);color:var(--paper);flex-shrink:0}
+.next-card h4{font-family:var(--heading);font-size:17px;font-weight:400;margin-bottom:2px}
+.next-card p{font-size:12px;color:var(--muted);line-height:1.4}
+.next-card .dur{color:var(--accent);font-weight:600}
+
+/* cta */
+.cta{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--paper);text-decoration:none;padding:12px 28px;font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;border:2px solid var(--ink);box-shadow:var(--shadow);transition:.12s;cursor:pointer}
+.cta:hover{background:var(--accent);border-color:var(--accent);transform:translate(2px,2px);box-shadow:6px 6px 0 #1c1a17}
+.cta-wrap{display:flex;align-items:center;gap:16px;margin-top:28px}
+
+/* nav */
+.nav{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;z-index:200;background:#fff;padding:6px 18px;border:2px solid var(--ink);user-select:none}
+.nav button{background:0;border:0;color:var(--muted);cursor:pointer;font-size:15px;padding:4px 6px;font-family:var(--mono);transition:color .15s;line-height:1}
+.nav button:hover{color:var(--ink)}
+.nav .dots{display:flex;gap:5px}
+.nav .dot{width:7px;height:7px;background:var(--border);cursor:pointer;transition:all .25s;border:0;padding:0}
+.nav .dot.active{background:var(--ink);width:22px;border-radius:0}
+.nav .num{font-family:var(--mono);font-size:10px;color:var(--muted);min-width:28px;text-align:center;letter-spacing:.5px}
+
+@media(max-width:768px){
+  .slide{padding:32px 20px}
+  .metrics{grid-template-columns:1fr 1fr}
+  .card-grid.c4{grid-template-columns:1fr 1fr}
+  .card-grid.c3{grid-template-columns:1fr}
+  .card-grid.c3 .card:nth-child(3n){border-right:2px solid var(--border)}
+  .card-grid.c3 .card:nth-child(3n){border-right:0}
+  .split{grid-template-columns:1fr}
+  .split-pane:first-child{border-right:0;border-bottom:2px solid var(--ink)}
+  .next-grid{grid-template-columns:1fr}
+  .next-card:nth-child(2n){border-right:2px solid var(--border)}
+  .bottleneck-item .name{min-width:100px;font-size:12px}
+  .timeline{flex-direction:column}
+  .t-step{border-right:0;border-bottom:2px solid var(--border)}
+  .t-step:last-child{border:0}
+  .stats{grid-template-columns:1fr 1fr}
+  .stat:nth-child(2n){border-right:0}
+  .nav{gap:8px;padding:5px 12px}
+}
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+
+<div class="accent-bar"></div>
+
+<div class="brand">
+  <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+    <rect x="1" y="1" width="20" height="20" stroke="#c75a2c" stroke-width="2" fill="none"/>
+    <path d="M6 11l4 4 6-8" stroke="#c75a2c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <span>WeaveAI</span>
+</div>
+
+<div class="side-label">Workflow Audit</div>
+
+<!-- 1: EXECUTIVE SUMMARY -->
+<div class="slide active" data-slide="0">
+<div class="slide-content">
+<div class="tag">Executive Summary</div>
+<div class="keyline"></div>
+<h1>AI Workflow Audit</h1>
+<p class="subtitle">Comprehensive assessment of your operational workflows with high-impact automation opportunities identified and prioritized.</p>
+<div class="metrics">
+<div class="metric-card"><div class="value">$72K</div><div class="label">Est. Annual Savings</div></div>
+<div class="metric-card"><div class="value">2.5 hrs</div><div class="label">Saved / Person / Day</div></div>
+<div class="metric-card"><div class="value">16 Days</div><div class="label">Payback Period</div></div>
+<div class="metric-card"><div class="value">5</div><div class="label">Automation-Ready Flows</div></div>
+</div>
+<p class="mono-label" style="margin-top:24px">Prepared by WeaveAI &mdash; Applied AI Systems That Work Together</p>
+</div>
+</div>
+
+<!-- 2: CURRENT WORKFLOW STATE -->
+<div class="slide" data-slide="1">
+<div class="slide-content">
+<div class="tag">Discovery Phase</div>
+<div class="keyline"></div>
+<h2>Current Workflow State</h2>
+<p class="subtitle-sm">Operational workflows mapped during assessment. Each represents a core function consuming team hours weekly.</p>
+<div class="card-grid c4">
+<div class="card"><span class="icon">⌨</span><h3>Data Entry &amp; Processing</h3><p>Manual transcription and data migration across spreadsheets and internal tools. Repetitive, high volume.</p></div>
+<div class="card"><span class="icon">↻</span><h3>Manual Coordination</h3><p>Email chains, Slack threads, and status meetings keeping cross-departmental tasks moving.</p></div>
+<div class="card"><span class="icon">⊞</span><h3>Weekly Reporting</h3><p>Pulling data from 3–5 sources, formatting charts, and writing narrative summaries by hand.</p></div>
+<div class="card"><span class="icon">⛓</span><h3>Disconnected Tools</h3><p>No integration between CRM, project management, billing, and communications platforms.</p></div>
+</div>
+</div>
+</div>
+
+<!-- 3: BOTTLENECK ANALYSIS -->
+<div class="slide" data-slide="2">
+<div class="slide-content">
+<div class="tag">Root Cause Analysis</div>
+<div class="keyline"></div>
+<h2>Bottleneck Analysis</h2>
+<p class="subtitle-sm">Operational bottlenecks ranked by time impact and automation potential.</p>
+<div class="bottleneck-list">
+<div class="bottleneck-item"><span class="name">Data Silos</span><div class="track"><div class="fill" data-w="92"></div></div><span class="pct">92%</span></div>
+<div class="bottleneck-item"><span class="name">Manual Data Entry</span><div class="track"><div class="fill" data-w="78"></div></div><span class="pct">78%</span></div>
+<div class="bottleneck-item"><span class="name">Approval Delays</span><div class="track"><div class="fill" data-w="65"></div></div><span class="pct">65%</span></div>
+<div class="bottleneck-item"><span class="name">Status Sync Overhead</span><div class="track"><div class="fill" data-w="54"></div></div><span class="pct">54%</span></div>
+<div class="bottleneck-item"><span class="name">Report Generation</span><div class="track"><div class="fill" data-w="42"></div></div><span class="pct">42%</span></div>
+</div>
+<div class="impact-bar">
+<div class="impact-item"><span class="badge badge-h">High</span> Data silos cause 35% slower project delivery</div>
+<div class="impact-item"><span class="badge badge-h">High</span> Manual entry generates 15–20% rework rate</div>
+<div class="impact-item"><span class="badge badge-m">Med</span> Approval chains add 2–4 day latency</div>
+<div class="impact-item"><span class="badge badge-m">Med</span> Status sync: 6+ hrs/week per manager</div>
+</div>
+</div>
+</div>
+
+<!-- 4: AI LEVERAGE OPPORTUNITIES -->
+<div class="slide" data-slide="3">
+<div class="slide-content">
+<div class="tag">Solution Architecture</div>
+<div class="keyline"></div>
+<h2>AI Leverage Opportunities</h2>
+<p class="subtitle-sm">Five AI interventions mapped to your operational bottlenecks.</p>
+<div class="card-grid c3">
+<div class="card"><span class="pill">Copilot</span><h3 style="margin-top:8px">AI Copilots</h3><p>Task-specific assistants embedded in existing tools for drafting, summarization, and data lookups without workflow disruption.</p></div>
+<div class="card"><span class="pill">Automation</span><h3 style="margin-top:8px">Workflow Automation</h3><p>End-to-end automation of repetitive multi-step processes connecting tools and triggering actions.</p></div>
+<div class="card"><span class="pill">Knowledge</span><h3 style="margin-top:8px">AI Knowledge Assistants</h3><p>RAG systems answering from approved documents. Zero-hallucination, auditable, temperature=0.</p></div>
+<div class="card"><span class="pill">Reporting</span><h3 style="margin-top:8px">Automated Reporting</h3><p>AI-powered report generation pulling from multiple sources and distributing on schedule.</p></div>
+<div class="card"><span class="pill">Orchestration</span><h3 style="margin-top:8px">Multi-Agent Orchestration</h3><p>Coordinated AI agent teams working together with handoff and escalation logic.</p></div>
+<div class="card" style="background:var(--paper)"><span class="pill" style="background:var(--ink);color:var(--paper);border-color:var(--ink)">Integrate</span><h3 style="margin-top:8px">Full-Stack Integration</h3><p>Combined Copilot + Automation + Knowledge + Reporting under a unified orchestration layer.</p></div>
+</div>
+</div>
+</div>
+
+<!-- 5: FUTURE-STATE WORKFLOW -->
+<div class="slide" data-slide="4">
+<div class="slide-content">
+<div class="tag">Transformation Roadmap</div>
+<div class="keyline"></div>
+<h2>Future-State Workflow</h2>
+<p class="subtitle-sm">Before and after across key operational dimensions.</p>
+<div class="split">
+<div class="split-pane">
+<h3 style="color:var(--muted)">Current State</h3>
+<div class="vs-item"><span class="x">✕</span><span>Manual data entry across 4+ systems</span></div>
+<div class="vs-item"><span class="x">✕</span><span>Email &amp; Slack-driven task coordination</span></div>
+<div class="vs-item"><span class="x">✕</span><span>Weekly reports take 4–6 hours to compile</span></div>
+<div class="vs-item"><span class="x">✕</span><span>No centralized knowledge base</span></div>
+<div class="vs-item"><span class="x">✕</span><span>Errors detected days after occurrence</span></div>
+</div>
+<div class="split-pane">
+<h3 style="color:var(--accent)">Future State</h3>
+<div class="vs-item"><span class="check">✓</span><span>Automated ingestion from all systems</span></div>
+<div class="vs-item"><span class="check">✓</span><span>AI triage and intelligent task routing</span></div>
+<div class="vs-item"><span class="check">✓</span><span>Auto-generated reports in under 5 min</span></div>
+<div class="vs-item"><span class="check">✓</span><span>RAG knowledge assistant, zero hallucination</span></div>
+<div class="vs-item"><span class="check">✓</span><span>Real-time anomaly detection and alerts</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 6: ESTIMATED ROI -->
+<div class="slide" data-slide="5">
+<div class="slide-content">
+<div class="tag">Financial Impact</div>
+<div class="keyline"></div>
+<h2>Estimated ROI</h2>
+<p class="subtitle-sm">Projected savings from automating the five identified workflows, conservative estimates.</p>
+<div class="metrics">
+<div class="metric-card"><div class="value">104 hrs</div><div class="label">Team Hours Saved / Month</div></div>
+<div class="metric-card"><div class="value">60–70%</div><div class="label">Admin Task Reduction</div></div>
+<div class="metric-card"><div class="value">85%</div><div class="label">Faster Response Times</div></div>
+<div class="metric-card"><div class="value">90%</div><div class="label">Fewer Processing Errors</div></div>
+</div>
+<div class="stats">
+<div class="stat"><div class="val">15–20×</div><div class="lbl">Year 1 ROI</div></div>
+<div class="stat"><div class="val">$80K–$200K</div><div class="lbl">Annual Savings</div></div>
+<div class="stat"><div class="val">16 Days</div><div class="lbl">Payback Period</div></div>
+<div class="stat"><div class="val">52 hrs</div><div class="lbl">Wasted / Mo / Employee</div></div>
+</div>
+</div>
+</div>
+
+<!-- 7: RECOMMENDED PILOT -->
+<div class="slide" data-slide="6">
+<div class="slide-content">
+<div class="tag">Getting Started</div>
+<div class="keyline"></div>
+<h2>Recommended Pilot</h2>
+<p class="subtitle-sm">Four-week engagement to validate impact with one high-value workflow before scaling.</p>
+<div class="timeline">
+<div class="t-step"><div class="dot"></div><h4>Week 1</h4><p>Deep-dive discovery and workflow mapping. Identify the highest-impact automation target.</p></div>
+<div class="t-step"><div class="dot"></div><h4>Week 2</h4><p>Build and deploy the automation. Integration with existing tools and data sources.</p></div>
+<div class="t-step"><div class="dot"></div><h4>Week 3</h4><p>Live testing with real data. Iterate on edge cases and handoff logic with your team.</p></div>
+<div class="t-step"><div class="dot"></div><h4>Week 4</h4><p>Review results, measure ROI, and plan Phase 2. Full findings report delivered.</p></div>
+</div>
+<div class="stats">
+<div class="stat"><div class="val">1</div><div class="lbl">Workflow</div></div>
+<div class="stat"><div class="val">$8K–$12K</div><div class="lbl">Pilot Investment</div></div>
+<div class="stat"><div class="val">4 Weeks</div><div class="lbl">Duration</div></div>
+<div class="stat"><div class="val">15×</div><div class="lbl">Projected ROI</div></div>
+</div>
+</div>
+</div>
+
+<!-- 8: NEXT STEPS -->
+<div class="slide" data-slide="7">
+<div class="slide-content">
+<div class="tag">Engagement Model</div>
+<div class="keyline"></div>
+<h2>Next Steps</h2>
+<p class="subtitle-sm">A phased approach to building your AI-powered operations.</p>
+<div class="next-grid">
+<div class="next-card"><div class="num">1</div><div><h4>AI Workflow Audit</h4><p>Comprehensive assessment of all operational workflows. Deliverable: prioritized opportunity deck. <span class="dur">2 weeks.</span></p></div></div>
+<div class="next-card"><div class="num">2</div><div><h4>Pilot Automation</h4><p>Build and deploy one high-impact automation end-to-end. Deliverable: live system with ROI. <span class="dur">4 weeks.</span></p></div></div>
+<div class="next-card"><div class="num">3</div><div><h4>Scale &amp; Integrate</h4><p>Expand automation across workflows. Add multi-agent orchestration and knowledge systems. <span class="dur">8–12 weeks.</span></p></div></div>
+<div class="next-card"><div class="num">4</div><div><h4>Ongoing Partnership</h4><p>Continuous improvement, monitoring, and new opportunity identification. Retainer support. <span class="dur">Ongoing.</span></p></div></div>
+</div>
+<div class="cta-wrap">
+<button class="cta" onclick="alert('Ready to schedule.')">Schedule a Review</button>
+<span class="mono-label">Review with your team → define pilot scope</span>
+</div>
+</div>
+</div>
+
+<!-- NAVIGATION -->
+<div class="nav" id="nav">
+<button id="prevBtn">←</button>
+<div class="dots" id="dots"></div>
+<span class="num" id="slideNum">1 / 8</span>
+<button id="nextBtn">→</button>
+</div>
+</div>
+
+<script>
+(function(){
+  var slides = document.querySelectorAll('.slide');
+  var total = slides.length;
+  var current = 0;
+
+  // build dots
+  var dotsEl = document.getElementById('dots');
+  for (var i = 0; i < total; i++) {
+    var dot = document.createElement('button');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('data-index', i);
+    dotsEl.appendChild(dot);
+  }
+
+  function goTo(idx) {
+    if (idx < 0 || idx >= total || idx === current) return;
+    slides[current].classList.remove('active');
+    slides[idx].classList.add('active');
+    var dots = dotsEl.children;
+    for (var j = 0; j < dots.length; j++) {
+      dots[j].classList.toggle('active', j === idx);
+    }
+    document.getElementById('slideNum').textContent = (idx + 1) + ' / ' + total;
+    current = idx;
+
+    // animate bars on slide 3
+    if (idx === 2) {
+      animateBars();
+    }
+  }
+
+  function animateBars() {
+    var fills = document.querySelectorAll('.slide[data-slide="2"] .fill');
+    for (var i = 0; i < fills.length; i++) {
+      var w = fills[i].getAttribute('data-w');
+      if (w) fills[i].style.width = w + '%';
+    }
+  }
+
+  // dot clicks via delegation
+  dotsEl.addEventListener('click', function(e) {
+    var t = e.target;
+    if (t.classList.contains('dot')) {
+      goTo(parseInt(t.getAttribute('data-index'), 10));
+    }
+  });
+
+  document.getElementById('prevBtn').addEventListener('click', function() { goTo(current - 1); });
+  document.getElementById('nextBtn').addEventListener('click', function() { goTo(current + 1); });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); goTo(current + 1); }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); goTo(current - 1); }
+    if (e.key === ' ' || e.key === 'Space') { e.preventDefault(); goTo(current + 1); }
+  });
+
+  // handle resize
+  var resizeTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+      // ensure current slide is visible in case layout shifted
+    }, 200);
+  });
+})();
+</script>
+
+</body>
+</html>
